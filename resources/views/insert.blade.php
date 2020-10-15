@@ -4,7 +4,7 @@
 
 @section('main')
 
-<h2>Inserimento Comics</h2>
+<h2 class="text-primary">Inserimento</h2>
 
 <form action="{{route('comic.store')}}" method="post">
 	@csrf

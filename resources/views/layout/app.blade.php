@@ -11,7 +11,7 @@
 
 <body>
 	<div class="container">
-	<header>
+	<header class="mb-4">
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
 			<a class="navbar-brand" href="#">Comic Storage</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
@@ -19,12 +19,12 @@
 				<span class="navbar-toggler-icon"> </span>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarNav">
-				<ul class="navbar-nav">
-					<li class="nav-item">
-						<a class="nav-link" href="/comic">Home <span class="sr-only">(current)</span></a>
+				<ul class="navbar-nav ml-auto">
+				<li class="nav-item ">
+						<a class="nav-link {{url()->current() == route('comic.index') ? 'text-primary' : ''}}" href="{{route('comic.index')}}">Home <span class="sr-only">(current)</span></a>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="/comic/create">Add Comics</a>
+					<li class="nav-item ">
+						<a class="nav-link {{url()->current() == route('comic.create') ? 'text-primary' : ''}}" href="{{route('comic.create')}}">Add Comics</a>
 					</li>
 				</ul>
 			</div>
