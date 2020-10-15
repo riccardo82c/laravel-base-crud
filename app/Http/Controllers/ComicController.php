@@ -24,7 +24,8 @@ class ComicController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        //
+
+        return view('insert');
     }
 
     /**
@@ -34,7 +35,22 @@ class ComicController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        //
+        $data = $request->all();
+
+        if (empty($data['titolo']) || empty($data['autore']) || empty($data['quantita'])) {
+            return back()->withInput();
+        }
+
+        $comicNew = new Comic;
+        $comicNew->titolo = $data['titolo'];
+        $comicNew->autore = $data['autore'];
+        $comicNew->prezzo = $data['prezzo'];
+        $comicNew->quantita = $data['quantita'];
+
+        $result = $comicNew->save();
+
+        $comic = Comic::orderBy('id', 'desc')->first();
+        return redirect()->route('comic.index', $comic);
     }
 
     /**
