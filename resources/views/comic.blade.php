@@ -13,7 +13,9 @@
       <th scope="col">Titolo</th>
 		<th scope="col">Autore</th>
 		<th scope="col">Prezzo</th>
-      <th scope="col">Qtà</th>
+		<th scope="col">Qtà</th>
+		<th scope="col"></th>
+		<th scope="col"></th>
     </tr>
   </thead>
   <tbody>
@@ -21,10 +23,21 @@
 	 @forelse ($data as $comic)
 		<tr>
       <th scope="row">{{$comic->id}}</th>
-      <td>{{$comic->titolo}}</td>
+      <td><a href="{{route('comic.show',$comic->id)}}">{{$comic->titolo}}</a></td>
       <td>{{$comic->autore}}</td>
 		<td>{{$comic->prezzo}}</td>
 		<td>{{$comic->quantita}}</td>
+		<td>
+		<a class="btn btn-info" href="{{route('comic.edit',$comic->id)}}" role="button">Modifica</a>
+		</td>
+		<td>
+			<form action="{{route('comic.destroy',$comic->id)}}" method="post">
+				@csrf
+				@method('DELETE')
+				<button type="submit" class="btn btn-danger">Elimina</button>
+			</form>
+		</td>
+				
     </tr>
 	 @empty
 		  <p>Nessun record trovato!</p>
@@ -32,6 +45,4 @@
    
   </tbody>
 </table>
-
-
 @endsection

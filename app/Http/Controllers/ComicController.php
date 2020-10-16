@@ -34,23 +34,23 @@ class ComicController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {
+    public function store(Request $request, Comic $comicNew) {
+
         $data = $request->all();
 
-        if (empty($data['titolo']) || empty($data['autore']) || empty($data['quantita'])) {
-            return back()->withInput();
-        }
+        $request->validate([
+            'titolo' => 'required|max:255|min:2',
+            'autore' => 'required|max:255|min:2',
+            'quantita' => 'required|numeric|min:0',
+        ]);
 
-        $comicNew = new Comic;
-        $comicNew->titolo = $data['titolo'];
-        $comicNew->autore = $data['autore'];
-        $comicNew->prezzo = $data['prezzo'];
-        $comicNew->quantita = $data['quantita'];
+        $comicNew->fill($data);
 
-        $result = $comicNew->save();
+        Comic::create($data);
+        /* equivalente di: */
+        /* $result = $comicNew->save(); */
 
-        $comic = Comic::orderBy('id', 'desc')->first();
-        return redirect()->route('comic.index', $comic);
+        return redirect()->route('comic.index');
     }
 
     /**
@@ -59,8 +59,19 @@ class ComicController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
-        //
+
+    /* ********************************************* */
+    /* METODO PRECEDENTE */
+    /* ********************************************* */
+    /* public function show($id) {
+    $comic = Comic::find($id);
+    return view('show', compact('comic'));
+    } */
+
+    public function show(Comic $comic) {
+
+        return view('show', compact('comic'));
+
     }
 
     /**
@@ -69,8 +80,8 @@ class ComicController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id) {
-        //
+    public function edit(Comic $comic) {
+        return view('insert', compact('comic'));
     }
 
     /**
@@ -80,8 +91,18 @@ class ComicController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id) {
-        //
+    public function update(Request $request, Comic $comic) {
+
+        $data = $request->all();
+
+        $request->validate([
+            'titolo' => 'required|max:255|min:2',
+            'autore' => 'required|max:255|min:2',
+            'quantita' => 'required|numeric|min:0',
+        ]);
+
+        $comic->update($data);
+        return view('show', compact('comic'));
     }
 
     /**
@@ -90,7 +111,9 @@ class ComicController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) {
-        //
+    public function destroy(Comic $comic) {
+        $comic->delete();
+        return redirect()->route('comic.index');
+
     }
 }
