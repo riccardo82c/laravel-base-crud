@@ -31,12 +31,15 @@
 		<a class="btn btn-info" href="{{route('comic.edit',$comic->id)}}" role="button">Modifica</a>
 		</td>
 		<td>
+			{{-- <a href="{{route('comic.destroy',$comic->id)}}" data-method="delete" data-token="{{csrf_token()}}" data-confirm="Are you sure?">delete</a> --}}
 			<form action="{{route('comic.destroy',$comic->id)}}" method="post">
 				@csrf
 				@method('DELETE')
 				<button type="submit" class="btn btn-danger">Elimina</button>
 			</form>
 		</td>
+
+		
 				
     </tr>
 	 @empty

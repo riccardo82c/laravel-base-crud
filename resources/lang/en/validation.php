@@ -11,7 +11,7 @@ return [
     | the validator class. Some of these rules have multiple versions such
     | as the size rules. Feel free to tweak each of these messages here.
     |
-    */
+     */
 
     'accepted' => 'The :attribute must be accepted.',
     'active_url' => 'The :attribute is not a valid URL.',
@@ -127,13 +127,24 @@ return [
     | convention "attribute.rule" to name the lines. This makes it quick to
     | specify a specific custom language line for a given attribute rule.
     |
-    */
+     */
 
-    'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
-        ],
+    /*   'custom' => [
+    'titolo' => [
+    'required' => 'Titolo non può essere vuoto',
+    'max' => 'Titolo non può essere più lungo di :max caratteri',
+    'min' => 'Titolo non può essere più corto di :min caratteri',
     ],
+    'autore' => [
+    'required' => 'Autore non può essere vuoto',
+    'max' => 'Autore non può essere più lungo di :max caratteri',
+    'min' => 'Autore non può essere più corto di :min caratteri',
+    ],
+    'quantita' => [
+    'required' => 'Quantità non può essere vuoto',
+    'min' => 'Quantità non può essere più corto di :min caratteri',
+    ],
+    ], */
 
     /*
     |--------------------------------------------------------------------------
@@ -144,7 +155,7 @@ return [
     | with something more reader friendly such as "E-Mail Address" instead
     | of "email". This simply helps us make our message more expressive.
     |
-    */
+     */
 
     'attributes' => [],
 

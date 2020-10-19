@@ -34,23 +34,18 @@ class ComicController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Comic $comicNew) {
+    public function store() {
 
-        $data = $request->all();
+        /* senza questa istruzione i campi che possono essere nulli nn vengono presi */
+        $data = request()->all();
 
-        $request->validate([
-            'titolo' => 'required|max:255|min:2',
-            'autore' => 'required|max:255|min:2',
-            'quantita' => 'required|numeric|min:0',
-        ]);
+        /* se ho tutti i campi non nullable posso togliere l'istruzione sopra e metto $data= alla seguente */
 
-        $comicNew->fill($data);
+        $this->validateData();
 
-        Comic::create($data);
-        /* equivalente di: */
-        /* $result = $comicNew->save(); */
+        $comic = Comic::create($data);
 
-        return redirect()->route('comic.index');
+        return redirect()->route('comic.show', compact('comic'));
     }
 
     /**
@@ -64,11 +59,17 @@ class ComicController extends Controller {
     /* METODO PRECEDENTE */
     /* ********************************************* */
     /* public function show($id) {
-    $comic = Comic::find($id);
+    $comic = Comic::findOrFail($id);
     return view('show', compact('comic'));
     } */
 
     public function show(Comic $comic) {
+
+        /* Creo errors in view ci metto il layout che voglio e verro riportato a quella pagina in automatico dalla seguente istruzione invece che andare alla 404 di default */
+        if (empty($comic)) {
+            abort(404);
+        }
+        /*  */
 
         return view('show', compact('comic'));
 
@@ -91,15 +92,11 @@ class ComicController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Comic $comic) {
+    public function update(Comic $comic) {
 
-        $data = $request->all();
+        $data = request()->all();
 
-        $request->validate([
-            'titolo' => 'required|max:255|min:2',
-            'autore' => 'required|max:255|min:2',
-            'quantita' => 'required|numeric|min:0',
-        ]);
+        $this->validateData();
 
         $comic->update($data);
         return view('show', compact('comic'));
@@ -115,5 +112,25 @@ class ComicController extends Controller {
         $comic->delete();
         return redirect()->route('comic.index');
 
+    }
+
+    /* validation */
+
+    private function validateData() {
+        request()->validate([
+            'titolo' => 'required|max:255|min:2',
+            'autore' => 'required|max:255|min:2',
+            'quantita' => 'required|numeric|min:0',
+        ],
+            [
+                'titolo.required' => 'Titolo non può essere vuoto',
+                'titolo.max' => 'Titolo non può essere più lungo di :max caratteri',
+                'titolo.min' => 'Titolo non può essere più corto di :min caratteri',
+                'autore.required' => 'Autore non può essere vuoto',
+                'autore.max' => 'Autore non può essere più lungo di :max caratteri',
+                'autore.min' => 'Autore non può essere più corto di :min caratteri',
+                'quantita.required' => 'Quantità non può essere vuoto',
+                'quantita.min' => 'Quantità non può essere più corto di :min caratteri',
+            ]);
     }
 }

@@ -1,0 +1,1 @@
+<a class="btn btn-success" href="{{route('comic.index')}}" role="button">Indietro</a>

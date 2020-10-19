@@ -34,4 +34,7 @@
 
 </ul>
 
+@include('layout.home-btn')
+
 @endsection
+
